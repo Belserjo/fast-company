@@ -3,12 +3,15 @@ import api from '../api';
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll());
+    
     const handleDelete = (usersId) => {
         setUsers(users.filter(u => u._id !== usersId))
     };
-    const renderPhrase = (number) => {
+    
+    const renderPhrase = (number) => { // Можео подумать и сделать боллее красиво
         number = Math.abs(number) % 100;
         let num = number % 10;
+        
         if(number > 10 && number < 20) return number + ' человек тусанет с тобой сегодня'
         if(num > 1 && num < 5) return number + ' человека тусанут с тобой сегодня'
         if(num === 1) return number + ' человек тусанет с тобой сегодня'
@@ -23,8 +26,7 @@ const Users = () => {
                   {renderPhrase(users.length)}
             </span>
             </h2>
-            {users.length
-                ?
+            {users.length ??
                 <table className="table">
                     <thead>
                     <tr>
@@ -66,11 +68,8 @@ const Users = () => {
                         </tr>
                     )
                     }
-
                     </tbody>
                 </table>
-                :
-                null
             }
         </>
     );
