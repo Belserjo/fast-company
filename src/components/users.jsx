@@ -9,10 +9,10 @@ const Users = () => {
     const renderPhrase = (number) => {
         number = Math.abs(number) % 100;
         let num = number % 10;
-        if(number > 10 && number < 20) return number + ' человек тусанет с тобой сегодня'
-        if(num > 1 && num < 5) return number + ' человека тусанут с тобой сегодня'
-        if(num === 1) return number + ' человек тусанет с тобой сегодня'
-        if(number === 0) return 'Никто с тобой тусить не будет!'
+        if (number > 10 && number < 20) return number + ' человек тусанет с тобой сегодня'
+        if (num > 1 && num < 5) return number + ' человека тусанут с тобой сегодня'
+        if (num === 1) return number + ' человек тусанет с тобой сегодня'
+        if (number === 0) return 'Никто с тобой не тусанет'
         return number + ' человек тусанет с тобой сегодня'
     }
 
@@ -21,7 +21,7 @@ const Users = () => {
             <h2>
                <span className={users.length ? 'badge bg-primary' : 'badge bg-danger'}>
                   {renderPhrase(users.length)}
-            </span>
+               </span>
             </h2>
             {users.length
                 ?
@@ -56,16 +56,17 @@ const Users = () => {
                                 {item.completedMeetings}
                             </td>
                             <td>
-                                {item.rate}
+                                {item.rate}/5
                             </td>
-                            <button
-                                onClick={() => handleDelete(item._id)}
-                                className='badge bg-danger'>
-                                delete
-                            </button>
+                            <td>
+                                <button
+                                    onClick={() => handleDelete(item._id)}
+                                    className='badge bg-danger'>
+                                    delete
+                                </button>
+                            </td>
                         </tr>
-                    )
-                    }
+                    )}
 
                     </tbody>
                 </table>
