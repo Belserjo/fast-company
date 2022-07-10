@@ -7,13 +7,24 @@ const Users = () => {
         setUsers(users.filter(u => u._id !== usersId))
     };
     const renderPhrase = (number) => {
-        number = Math.abs(number) % 100;
-        let num = number % 10;
-        if (number > 10 && number < 20) return number + ' человек тусанет с тобой сегодня'
-        if (num > 1 && num < 5) return number + ' человека тусанут с тобой сегодня'
-        if (num === 1) return number + ' человек тусанет с тобой сегодня'
-        if (number === 0) return 'Никто с тобой не тусанет'
-        return number + ' человек тусанет с тобой сегодня'
+        number = Math.abs(number)
+        if (number) {
+            return [2, 3, 4].includes(number)
+                ?
+                `${number} человека тусанут с тобой сегодня`
+                :
+                `${number} человек тусанет с тобой сегодня`
+        } else {
+            return 'Никто с тобой не тусанет'
+        }
+
+
+        // let num = number % 10;
+        // if (number > 10 && number < 20)  return number + ' человек тусанет с тобой сегодня'
+        // if (num > 1 && num < 5) return number + ' человека тусанут с тобой сегодня'
+        // if (num === 1) return number + ' человек тусанет с тобой сегодня'
+        // if (number === 0) return 'Никто с тобой не тусанет'
+        // return number + ' человек тусанет с тобой сегодня'
     }
 
     return (
@@ -61,7 +72,7 @@ const Users = () => {
                             <td>
                                 <button
                                     onClick={() => handleDelete(item._id)}
-                                    className='badge bg-danger'>
+                                    className='btn btn-danger'>
                                     delete
                                 </button>
                             </td>
