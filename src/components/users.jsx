@@ -9,7 +9,7 @@ const Users = () => {
     const renderPhrase = (number) => {
         number = Math.abs(number)
         if (number) {
-            return [2, 3, 4].includes(number)
+            return [2, 3, 4].includes(number) // ну тут мне кажется есть ошибки, но это не реакт
                 ?
                 `${number} человека тусанут с тобой сегодня`
                 :
