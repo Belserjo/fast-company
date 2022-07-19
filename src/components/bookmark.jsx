@@ -1,19 +1,20 @@
-import React from 'react';
+import React from "react";
 
-const BookMark = ({isBookMarked, ...props}) => {
+const Bookmark = (props) => {
     return (
         <button
-            className='btn '
+            className="btn "
             onClick={() => {
-                props.onToogleBookmark(props.userId)
+                props.onToogleBookmark(props.userId);
             }}
         >
-            <i className={`bi bi-${isBookMarked ? 'heart-fill' : 'heart'}`}>
-
-            </i>
-
+            <i
+                className={`bi bi-${
+                    props.isBookmarked ? "heart-fill" : "heart"
+                }`}
+            ></i>
         </button>
     );
 };
 
-export default BookMark;
+export default Bookmark;
