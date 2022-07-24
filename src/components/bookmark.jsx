@@ -1,20 +1,22 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const Bookmark = (props) => {
+const Bookmark = ({ onToogleBookmark, userId, isBookmarked }) => {
     return (
         <button
             className="btn "
             onClick={() => {
-                props.onToogleBookmark(props.userId);
+                onToogleBookmark(userId);
             }}
         >
-            <i
-                className={`bi bi-${
-                    props.isBookmarked ? "heart-fill" : "heart"
-                }`}
-            ></i>
+            <i className={`bi bi-${isBookmarked ? "heart-fill" : "heart"}`}></i>
         </button>
     );
+};
+Bookmark.propTypes = {
+    onToogleBookmark: PropTypes.func.isRequired,
+    userId: PropTypes.string.isRequired,
+    isBookmarked: PropTypes.bool.isRequired
 };
 
 export default Bookmark;
