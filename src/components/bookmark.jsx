@@ -13,6 +13,7 @@ const Bookmark = ({ onToogleBookmark, userId, isBookmarked }) => {
         </button>
     );
 };
+
 Bookmark.propTypes = {
     onToogleBookmark: PropTypes.func.isRequired,
     userId: PropTypes.string.isRequired,
