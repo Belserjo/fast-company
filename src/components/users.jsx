@@ -9,29 +9,34 @@ import SearchStatus from "./searchStatus";
 
 const Users = ({ users, onDelete, onBookmark }) => {
     const pageSize = 4;
-
-    const handlePageChange = (pageIndex) => {
-        setCurrentPage(pageIndex);
-    };
+    
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
+    
+    const handlePageChange = (pageIndex) => {
+        setCurrentPage(pageIndex);
+    };
+    
     const hendleProfessionSelect = (item) => {
         setSelectedProf(item);
     };
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
-    }, [currentPage]);
+    }, [currentPage]); // надо только 1 раз делать запрос
+    
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
+    
     const filteredUsers = selectedProf
         ? users.filter((user) => user.profession._id === selectedProf._id)
         : users;
     const count = filteredUsers.length;
 
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
+    
     const filterReset = () => {
         setSelectedProf(null);
     };
