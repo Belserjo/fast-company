@@ -18,13 +18,13 @@ const Users = ({ users, onDelete, onBookmark }) => {
         setCurrentPage(pageIndex);
     };
     
-    const hendleProfessionSelect = (item) => {
+    const handleProfessionSelect = (item) => {
         setSelectedProf(item);
     };
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
-    }, [currentPage]); // надо только 1 раз делать запрос
+    }, []);
     
     useEffect(() => {
         setCurrentPage(1);
@@ -47,7 +47,7 @@ const Users = ({ users, onDelete, onBookmark }) => {
                     <GroupList
                         selectedItem={selectedProf}
                         items={professions}
-                        onItemSelect={hendleProfessionSelect}
+                        onItemSelect={handleProfessionSelect}
                     />
                     <button
                         className="btn btn-secondary mt-2"
