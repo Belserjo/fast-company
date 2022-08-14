@@ -9,7 +9,11 @@ const Bookmark = ({ onToogleBookmark, userId, isBookmarked }) => {
                 onToogleBookmark(userId);
             }}
         >
-            <i className={`bi bi-${isBookmarked ? "heart-fill" : "heart"}`}></i>
+            <i
+                className={`bi bg-white bi-${
+                    isBookmarked ? "heart-fill" : "heart"
+                }`}
+            ></i>
         </button>
     );
 };

@@ -1,45 +1,42 @@
-// import React from "react";
-// import Qualitie from "./qualitie";
-// import Bookmark from "./bookmark";
-// import PropTypes from "prop-types";
-//
-// const User = ({ user, onDelete, onBookmark }) => {
-//     const getUserQualities = (user) => {
-//         return user.qualities.map((item) => (
-//             <Qualitie key={item._id} {...item} />
-//         ));
-//     };
-//
-//     return (
-//         <tr>
-//             <td>{user.name}</td>
-//             <td>{getUserQualities(user)}</td>
-//             <td>{user.profession.name}</td>
-//             <td>{user.completedMeetings}</td>
-//             <td>{user.rate}/5</td>
-//             <td>
-//                 <Bookmark
-//                     userId={user._id}
-//                     isBookmarked={user.bookmark}
-//                     onToogleBookmark={onBookmark}
-//                 />
-//             </td>
-//             <td>
-//                 <button
-//                     className="btn btn-danger"
-//                     onClick={() => onDelete(user._id)}
-//                 >
-//                     delete
-//                 </button>
-//             </td>
-//         </tr>
-//     );
-// };
-//
-// User.propTypes = {
-//     user: PropTypes.object,
-//     onDelete: PropTypes.func.isRequired,
-//     onBookmark: PropTypes.func.isRequired
-// };
-//
-// export default User;
+import { React, useState, useEffect } from "react";
+import api from "../api";
+import QualitiesList from "./qualitiesList";
+import { useHistory } from "react-router-dom";
+import Loader from "./loader";
+
+const User = ({ id }) => {
+    const [user, setUser] = useState();
+    const history = useHistory();
+
+    useEffect(() => {
+        api.users.getById(id).then((data) => setUser(data));
+    }, []);
+
+    const handleBack = () => {
+        history.push("/users");
+    };
+
+    return user ? (
+        <div className="d-flex justify-content-center">
+            <div>
+                <h2>{user.name}</h2>
+                <p>{`Профессия: ${user.profession.name}`}</p>
+                <p>
+                    <QualitiesList qualities={user.qualities} />
+                </p>
+                <p>{`Встретился раз: ${user.completedMeetings}`}</p>
+                <p>{`Оценка: ${user.rate}`}</p>
+                <button
+                    onClick={() => handleBack()}
+                    className="btn btn-primary"
+                >
+                    Все пользователи
+                </button>
+            </div>
+        </div>
+    ) : (
+        <Loader />
+    );
+};
+
+export default User;

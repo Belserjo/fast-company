@@ -29,7 +29,6 @@ const TableHeader = ({ selectedSort, onSort, columns }) => {
                         scope="col"
                     >
                         {columns[column].name}
-
                         {selectedSort.path === columns[column].path ? (
                             selectedSort.order === "desc" ? (
                                 <svg

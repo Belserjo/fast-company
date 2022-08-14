@@ -1,8 +1,21 @@
 import React from "react";
-import Users from "./users";
+import NavBar from "./navBar";
+import { Route, Switch } from "react-router-dom";
+import Main from "./main";
+import Login from "./login";
+import UsersList from "./usersList";
 
 const App = () => {
-    return <Users />;
+    return (
+        <div className="container">
+            <NavBar />
+            <Switch>
+                <Route path="/" exact component={Main} />
+                <Route path="/login" component={Login} />
+                <Route path="/users/:userId?" component={UsersList} />
+            </Switch>
+        </div>
+    );
 };
 
 export default App;

@@ -6,6 +6,7 @@ import api from "../api";
 import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import _ from "lodash";
+import Loader from "./loader";
 
 const Users = () => {
     const [users, setUsers] = useState();
@@ -13,6 +14,7 @@ const Users = () => {
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
+
     const handleDelete = (userId) => {
         setUsers((prevState) =>
             prevState.filter((user) => user._id !== userId)
@@ -56,6 +58,7 @@ const Users = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
+
     if (users) {
         const filteredUsers = selectedProf
             ? users.filter((user) => user.profession._id === selectedProf._id)
@@ -72,7 +75,7 @@ const Users = () => {
             setSelectedProf(null);
         };
         return (
-            <div className="d-flex">
+            <div className="d-flex bg-dark text-white">
                 {professions && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList
@@ -112,7 +115,7 @@ const Users = () => {
             </div>
         );
     }
-    return <div className="container text-center">Loading...</div>;
+    return <Loader />;
 };
 
 export default Users;
