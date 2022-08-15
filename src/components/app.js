@@ -3,7 +3,9 @@ import NavBar from "./navBar";
 import { Route, Switch } from "react-router-dom";
 import Main from "./main";
 import Login from "./login";
-import UsersList from "./usersList";
+// import UsersPage from "./usersPage";
+import UserPage from "./userPage";
+import Users from "./users";
 
 const App = () => {
     return (
@@ -12,7 +14,8 @@ const App = () => {
             <Switch>
                 <Route path="/" exact component={Main} />
                 <Route path="/login" component={Login} />
-                <Route path="/users/:userId?" component={UsersList} />
+                <Route path="/users/" exact component={Users} />
+                <Route path="/users/:userId?" component={UserPage} />
             </Switch>
         </div>
     );

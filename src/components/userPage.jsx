@@ -1,15 +1,16 @@
 import { React, useState, useEffect } from "react";
 import api from "../api";
 import QualitiesList from "./qualitiesList";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Loader from "./loader";
 
-const User = ({ id }) => {
+const UserPage = () => {
     const [user, setUser] = useState();
     const history = useHistory();
-
+    const params = useParams();
+    const { userId } = params;
     useEffect(() => {
-        api.users.getById(id).then((data) => setUser(data));
+        api.users.getById(userId).then((data) => setUser(data));
     }, []);
 
     const handleBack = () => {
@@ -39,4 +40,4 @@ const User = ({ id }) => {
     );
 };
 
-export default User;
+export default UserPage;
