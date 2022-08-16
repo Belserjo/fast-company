@@ -1,36 +1,22 @@
-import React, { useState } from "react";
-import api from "../api";
+import React from "react";
+import NavBar from "./navBar";
+import { Route, Switch } from "react-router-dom";
+import Main from "./main";
+import Login from "./login";
+// import UsersPage from "./usersPage";
+import UserPage from "./userPage";
 import Users from "./users";
-import SearchStatus from "./searchStatus";
 
 const App = () => {
-    const [users, setUsers] = useState(api.users.fetchAll());
-
-    const handleDelete = (userId) => {
-        setUsers((prevState) =>
-            prevState.filter((user) => user._id !== userId)
-        );
-    };
-
-    const handleToggleBookMark = (id) => {
-        setUsers((prevState) =>
-            prevState.map((user) => {
-                if (id === user._id) {
-                    user = { ...user };
-                    user.bookmark = !user.bookmark;
-                }
-                return user;
-            })
-        );
-    };
     return (
-        <div className=" ">
-            <SearchStatus length={users.length} />
-            <Users
-                users={users}
-                onDelete={handleDelete}
-                onBookmark={handleToggleBookMark}
-            />
+        <div className="container">
+            <NavBar />
+            <Switch>
+                <Route path="/" exact component={Main} />
+                <Route path="/login" component={Login} />
+                <Route path="/users/" exact component={Users} />
+                <Route path="/users/:userId?" component={UserPage} />
+            </Switch>
         </div>
     );
 };
