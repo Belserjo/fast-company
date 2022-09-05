@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import { paginate } from "../app/utils/paginate";
-import GroupList from "./groupList";
-import api from "../api";
-import SearchStatus from "./searchStatus";
-import UsersTable from "./usersTable";
+import Pagination from "../components/common/pagination";
+import { paginate } from "../utils/paginate";
+import GroupList from "../components/common/groupList";
+import api from "../../api";
+import SearchStatus from "../components/ui/searchStatus";
+import UsersTable from "../components/ui/usersTable";
 import _ from "lodash";
-import Loader from "./loader";
+import Loader from "../components/ui/loader";
 
 const Users = () => {
     const [users, setUsers] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [professions, setProfessions] = useState();
+    const [selectedProf, setSelectedProf] = useState();
+    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const pageSize = 8;
 
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
@@ -33,12 +40,6 @@ const Users = () => {
         );
     };
 
-    const pageSize = 8;
-    const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfessions] = useState();
-    const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
@@ -48,7 +49,13 @@ const Users = () => {
     };
 
     const handleProfessionSelect = (item) => {
+        if (searchQuery !== "") setSearchQuery("");
         setSelectedProf(item);
+    };
+
+    const handleSearchQuery = ({ target }) => {
+        setSelectedProf(undefined);
+        setSearchQuery(target.value);
     };
 
     const handleSort = (item) => {
@@ -57,11 +64,22 @@ const Users = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchQuery]);
 
     if (users) {
-        const filteredUsers = selectedProf
-            ? users.filter((user) => user.profession._id === selectedProf._id)
+        const filteredUsers = searchQuery
+            ? users.filter(
+                  (user) =>
+                      user.name
+                          .toLowerCase()
+                          .indexOf(searchQuery.toLowerCase()) !== -1
+              )
+            : selectedProf
+            ? users.filter(
+                  (user) =>
+                      JSON.stringify(user.profession) ===
+                      JSON.stringify(selectedProf)
+              )
             : users;
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
@@ -93,7 +111,13 @@ const Users = () => {
                 )}
                 <div className="d-flex flex-column py-3">
                     <SearchStatus length={count} />
-
+                    <input
+                        type="search"
+                        value={searchQuery}
+                        onChange={handleSearchQuery}
+                        name="searchQuery"
+                        placeholder="Поисковой запрос"
+                    />
                     {count > 0 && (
                         <UsersTable
                             users={userCrop}
