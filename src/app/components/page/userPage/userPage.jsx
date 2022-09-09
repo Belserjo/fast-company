@@ -1,16 +1,15 @@
 import { React, useState, useEffect } from "react";
-import api from "../../../../api";
+import api from "../../../api";
 import Qualities from "../../ui/qualities";
-import { useHistory, useParams } from "react-router-dom";
-import Loader from "../../ui/loader";
+import { Link, useHistory } from "react-router-dom";
+import Loader from "../../common/loader";
+import PropTypes from "prop-types";
 
-const UserPage = () => {
+const UserPage = ({ id }) => {
     const [user, setUser] = useState();
     const history = useHistory();
-    const params = useParams();
-    const { userId } = params;
     useEffect(() => {
-        api.users.getById(userId).then((data) => setUser(data));
+        api.users.getById(id).then((data) => setUser(data));
     }, []);
 
     const handleBack = () => {
@@ -27,17 +26,21 @@ const UserPage = () => {
                 </p>
                 <p>{`Встретился раз: ${user.completedMeetings}`}</p>
                 <p>{`Оценка: ${user.rate}`}</p>
-                <button
-                    onClick={() => handleBack()}
-                    className="btn btn-primary"
-                >
-                    Все пользователи
-                </button>
+                <Link to={`/users/${id}/edit`}>
+                    <button
+                        onClick={() => handleBack()}
+                        className="btn btn-primary"
+                    >
+                        Изменить
+                    </button>
+                </Link>
             </div>
         </div>
     ) : (
         <Loader />
     );
 };
-
+UserPage.propTypes = {
+    id: PropTypes.string.isRequired
+};
 export default UserPage;

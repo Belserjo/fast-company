@@ -16,7 +16,7 @@ export function validator(data, config) {
                 statusValidate = !emailRegExp.test(data);
                 break;
             }
-            case "isCapital": {
+            case "isCapitalSymbol": {
                 const capitalRegExp = /[A-Z]+/g;
                 statusValidate = !capitalRegExp.test(data);
                 break;

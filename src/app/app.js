@@ -3,8 +3,8 @@ import NavBar from "./components/ui/navBar";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
-import UserPage from "./components/page/userPage";
 import Users from "./layouts/users";
+import UserEditPage from "./components/page/editUserPage/";
 
 const App = () => {
     return (
@@ -13,8 +13,8 @@ const App = () => {
             <Switch>
                 <Route path="/" exact component={Main} />
                 <Route path="/login/:type?" component={Login} />
-                <Route path="/users/" exact component={Users} />
-                <Route path="/users/:userId?" component={UserPage} />
+                <Route path="/users/:userId?" exact component={Users} />
+                <Route path="/users/:userId/edit" component={UserEditPage} />
                 <Redirect to="/" />
             </Switch>
         </div>
