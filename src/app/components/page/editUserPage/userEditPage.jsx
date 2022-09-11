@@ -19,43 +19,41 @@ const userEditPage = () => {
     const [professions, setProfessions] = useState([]);
     const [qualities, setQualities] = useState([]);
     const [errors, setErrors] = useState({});
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const history = useHistory();
     const params = useParams();
     const { userId } = params;
-    console.log(userData);
-    console.log("allQualities", qualities);
-    console.log("userData.qualities", userData.qualities);
     useEffect(() => {
-        setLoading(true);
-        api.users.getById(userId).then(({ profession, qualities, ...data }) => {
-            setUserData((prevState) => ({
-                ...prevState,
-                ...data,
-                profession: profession._id,
-                qualities: getDefaultUserQualities(qualities)
-            }));
-        });
-        api.professions.fetchAll().then((data) => {
-            const professionsList = Object.keys(data).map((professionName) => ({
-                label: data[professionName].name,
-                value: data[professionName]._id
-            }));
-            setProfessions(professionsList);
-        });
-        api.qualities.fetchAll().then((data) => {
-            const qualitiesList = Object.keys(data).map((optionName) => ({
-                label: data[optionName].name,
-                value: data[optionName]._id,
-                color: data[optionName].color
-            }));
-            setQualities(qualitiesList);
-        });
+        Promise.all([
+            api.users
+                .getById(userId)
+                .then(({ profession, qualities, ...data }) => {
+                    setUserData((prevState) => ({
+                        ...prevState,
+                        ...data,
+                        profession: profession._id,
+                        qualities: getDefaultUserQualities(qualities)
+                    }));
+                }),
+            api.professions.fetchAll().then((data) => {
+                const professionsList = Object.keys(data).map(
+                    (professionName) => ({
+                        label: data[professionName].name,
+                        value: data[professionName]._id
+                    })
+                );
+                setProfessions(professionsList);
+            }),
+            api.qualities.fetchAll().then((data) => {
+                const qualitiesList = Object.keys(data).map((optionName) => ({
+                    label: data[optionName].name,
+                    value: data[optionName]._id,
+                    color: data[optionName].color
+                }));
+                setQualities(qualitiesList);
+            })
+        ]).then(() => setLoading(false));
     }, []);
-
-    useEffect(() => {
-        if (userData.name) setLoading(false);
-    });
 
     const getDefaultUserQualities = (qualities) => {
         return qualities.map((quality) => ({
@@ -117,7 +115,6 @@ const userEditPage = () => {
     };
 
     const handleChange = (target) => {
-        console.log(target);
         setUserData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -137,7 +134,7 @@ const userEditPage = () => {
                 profession: getProfessionById(profession),
                 qualities: getQualities(qualities)
             })
-            .then((userData) => history.push(`/users/${userId}`));
+            .then(() => history.push(`/users/${userId}`));
     };
     return !isLoading ? (
         <div className="container mt-5">
