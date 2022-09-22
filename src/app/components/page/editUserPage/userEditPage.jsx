@@ -7,6 +7,7 @@ import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import Loader from "../../common/loader";
+import BackButton from "../../common/backButton";
 
 const userEditPage = () => {
     const [userData, setUserData] = useState({
@@ -138,6 +139,7 @@ const userEditPage = () => {
     };
     return !isLoading ? (
         <div className="container mt-5">
+            <BackButton />
             <div className="row">
                 <div className="col-md-6 offset-md-3 p-4 shadow">
                     <form onSubmit={handleSubmit}>
