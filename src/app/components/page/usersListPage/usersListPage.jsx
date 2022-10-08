@@ -31,12 +31,10 @@ const UsersListPage = () => {
     const handleToggleBookMark = (id) => {
         const newArray = users.map((user) => {
             if (id === user._id) {
-                user = { ...user };
-                user.bookmark = !user.bookmark;
+                user = { ...user, bookmark: !user.bookmark };
             }
             return user;
         });
-        console.log(newArray);
     };
 
     useEffect(() => {
