@@ -7,9 +7,9 @@ import SearchStatus from "../../../components/ui/searchStatus";
 import UsersTable from "../../../components/ui/usersTable";
 import _ from "lodash";
 import Loader from "../../common/loader";
+import { useUser } from "../../../hooks/useUsers";
 
 const UsersListPage = () => {
-    const [users, setUsers] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -18,26 +18,23 @@ const UsersListPage = () => {
 
     const pageSize = 8;
 
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
+    const { users } = useUser();
 
     const handleDelete = (userId) => {
-        setUsers((prevState) =>
-            prevState.filter((user) => user._id !== userId)
-        );
+        // setUsers((prevState) =>
+        //      prevState.filter((user) => user._id !== userId)
+
+        // );
+        console.log(userId);
     };
 
     const handleToggleBookMark = (id) => {
-        setUsers((prevState) =>
-            prevState.map((user) => {
-                if (id === user._id) {
-                    user = { ...user };
-                    user.bookmark = !user.bookmark;
-                }
-                return user;
-            })
-        );
+        const newArray = users.map((user) => {
+            if (id === user._id) {
+                user = { ...user, bookmark: !user.bookmark };
+            }
+            return user;
+        });
     };
 
     useEffect(() => {
