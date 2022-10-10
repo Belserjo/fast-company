@@ -29,12 +29,13 @@ const UsersListPage = () => {
     };
 
     const handleToggleBookMark = (id) => {
-        const newArray = users.map((user) => {
-            if (id === user._id) {
-                user = { ...user, bookmark: !user.bookmark };
-            }
-            return user;
-        });
+        // const newArray = users.map((user) => {
+        //     if (id === user._id) {
+        //         user = { ...user, bookmark: !user.bookmark };
+        //     }
+        //     return user;
+        // });
+        console.log("handleToggleBookMark");
     };
 
     useEffect(() => {
@@ -66,18 +67,18 @@ const UsersListPage = () => {
     if (users) {
         const filteredUsers = searchQuery
             ? users.filter(
-                  (user) =>
-                      user.name
-                          .toLowerCase()
-                          .indexOf(searchQuery.toLowerCase()) !== -1
-              )
+                (user) =>
+                    user.name
+                        .toLowerCase()
+                        .indexOf(searchQuery.toLowerCase()) !== -1
+            )
             : selectedProf
-            ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
-            : users;
+                ? users.filter(
+                    (user) =>
+                        JSON.stringify(user.profession) ===
+                        JSON.stringify(selectedProf)
+                )
+                : users;
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
             filteredUsers,

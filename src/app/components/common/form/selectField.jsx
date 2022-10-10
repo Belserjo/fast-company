@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const SelectField = ({
-    label,
-    value,
-    onChange,
-    defaultOption,
-    options,
-    error,
-    name
-}) => {
+                         label,
+                         value,
+                         onChange,
+                         defaultOption,
+                         options,
+                         error,
+                         name
+                     }) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };

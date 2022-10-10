@@ -7,14 +7,14 @@ import Users from "./layouts/users";
 import UserEditPage from "./components/page/editUserPage/";
 import { ToastContainer } from "react-toastify";
 import { ProfessionProvider } from "./hooks/useProfession";
-import UserProvider from "./hooks/useUsers";
 import { QualityProvider } from "./hooks/useQualities";
+import AuthProvider from "./hooks/useAuth";
 
 const App = () => {
     return (
         <div className="container">
-            <NavBar />
-            <UserProvider>
+            <AuthProvider>
+                <NavBar />
                 <QualityProvider>
                     <ProfessionProvider>
                         <Switch>
@@ -33,7 +33,7 @@ const App = () => {
                         </Switch>
                     </ProfessionProvider>
                 </QualityProvider>
-            </UserProvider>
+            </AuthProvider>
             <ToastContainer />
         </div>
     );
