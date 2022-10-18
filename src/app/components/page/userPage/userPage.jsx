@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
-import api from "../../../api";
+import React from "react";
 import Loader from "../../common/loader";
 import PropTypes from "prop-types";
 import UserCard from "../../ui/userCard";
 import QualitiesCard from "../../ui/qualitiesCard";
 import MeetingCard from "../../ui/meetingCard";
 import Comments from "../../ui/comments";
+import { useUser } from "../../../hooks/useUsers";
+import { CommentsProvider } from "../../../hooks/useComments";
 
-const UserPage = ({ id }) => {
-    const [user, setUser] = useState();
+const UserPage = ({ userId }) => {
+    const { getUserById } = useUser();
+    const user = getUserById(userId);
 
-    useEffect(() => {
-        api.users.getById(id).then((data) => setUser(data));
-    }, []);
     return user ? (
         <>
             <div className="container bg-dark">
@@ -24,7 +23,9 @@ const UserPage = ({ id }) => {
                     </div>
 
                     <div className="col-md-8">
-                        <Comments />
+                        <CommentsProvider>
+                            <Comments />
+                        </CommentsProvider>
                     </div>
                 </div>
             </div>
@@ -35,6 +36,6 @@ const UserPage = ({ id }) => {
 };
 
 UserPage.propTypes = {
-    id: PropTypes.string.isRequired
+    userId: PropTypes.string.isRequired
 };
 export default UserPage;

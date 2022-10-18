@@ -31,23 +31,27 @@ const UserProvider = ({ children }) => {
         } catch (error) {
             errorCatcher(error);
         }
-
-        function errorCatcher(error) {
-            const { message } = error.response.data;
-            setError(message);
-            setLoading(false);
-        }
+    }
+    function errorCatcher(error) {
+        const { message } = error.response.data;
+        setError(message);
+        setLoading(false);
+    }
+    function getUserById(userId) {
+        return users.find((u) => u._id === userId);
     }
     return (
-        <UserContext.Provider value={{ users }}>
+        <UserContext.Provider value={{ users, getUserById }}>
             {!isLoading ? children : <Loader />}
         </UserContext.Provider>
     );
 };
+
 UserProvider.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ])
 };
+
 export default UserProvider;

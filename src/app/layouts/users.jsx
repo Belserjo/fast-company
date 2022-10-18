@@ -11,7 +11,7 @@ const Users = () => {
 
     return (
         <UserProvider>
-            {userId ? <UserPage id={userId} /> : <UsersListPage />}
+            {userId ? <UserPage userId={userId} /> : <UsersListPage />}
         </UserProvider>
     );
 };
