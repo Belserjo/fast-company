@@ -20,6 +20,13 @@ function ProtectedRoute({ component: Component, children, ...rest }) {
                         />
                     );
                 }
+                if (
+                    props.match.path === "/users/:userId/edit" &&
+                    currentUser._id !== props.match.params.userId
+                ) {
+                    return <Redirect to={`/users/${currentUser._id}/edit`} />;
+                }
+
                 return Component ? <Component {...props} /> : children;
             }}
         />
@@ -31,7 +38,9 @@ ProtectedRoute.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
-    ])
+    ]),
+    match: PropTypes.object,
+    path: PropTypes.string
 };
 
 export default ProtectedRoute;

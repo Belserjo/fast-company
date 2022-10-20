@@ -11,6 +11,7 @@ import { QualitiesProvider } from "./hooks/useQualities";
 import AuthProvider from "./hooks/useAuth";
 import ProtectedRoute from "./components/common/protectedRoute";
 import LogOut from "./layouts/logOut";
+import UserProvider from "./hooks/useUsers";
 
 const App = () => {
     return (
@@ -20,22 +21,24 @@ const App = () => {
 
                 <QualitiesProvider>
                     <ProfessionProvider>
-                        <Switch>
-                            <Route path="/" exact component={Main} />
-                            <Route path="/login/:type?" component={Login} />
-                            <ProtectedRoute
-                                path="/users/:userId?"
-                                exact
-                                component={Users}
-                            />
-                            <ProtectedRoute
-                                path="/users/:userId/edit"
-                                component={UserEditPage}
-                            />
-                            <Route path="/logout" component={LogOut} />
+                        <UserProvider>
+                            <Switch>
+                                <Route path="/" exact component={Main} />
+                                <Route path="/login/:type?" component={Login} />
+                                <ProtectedRoute
+                                    path="/users/:userId?"
+                                    exact
+                                    component={Users}
+                                />
+                                <ProtectedRoute
+                                    path="/users/:userId/edit"
+                                    component={UserEditPage}
+                                />
+                                <Route path="/logout" component={LogOut} />
 
-                            <Redirect to="/" />
-                        </Switch>
+                                <Redirect to="/" />
+                            </Switch>
+                        </UserProvider>
                     </ProfessionProvider>
                 </QualitiesProvider>
             </AuthProvider>

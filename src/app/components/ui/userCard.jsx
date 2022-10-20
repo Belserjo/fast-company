@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useAuth } from "../../hooks/useAuth";
+import Profession from "./profession";
 
 const UserCard = ({ user }) => {
     const history = useHistory();
@@ -9,7 +10,7 @@ const UserCard = ({ user }) => {
     const handleClick = () => {
         history.push(history.location.pathname + "/edit");
     };
-
+    useEffect(() => {}, [user]);
     return (
         <div className="card mb-3 bg-dark">
             <div className="card-body">
@@ -37,9 +38,12 @@ const UserCard = ({ user }) => {
                     />
                     <div className="mt-3">
                         <h4>{user.name}</h4>
-                        <p className="text-secondary mb-1">
-                            {user.profession.name}
-                        </p>
+
+                        <Profession
+                            className="text-secondary mb-1"
+                            id={user.profession}
+                        />
+
                         <div className="text-muted">
                             <i
                                 className="
