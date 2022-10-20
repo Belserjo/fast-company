@@ -16,21 +16,21 @@ const TableBody = ({ data, columns }) => {
     };
     return (
         <tbody>
-            {data.map((item) => (
-                <tr key={item._id}>
-                    {Object.keys(columns).map((column) => (
-                        <td key={column}>
-                            {column === "name" ? (
-                                <Link to={`/users/${item._id}`}>
-                                    {item.name}
-                                </Link>
-                            ) : (
-                                renderContent(item, column)
-                            )}
-                        </td>
-                    ))}
-                </tr>
-            ))}
+        {data.map((item) => (
+            <tr key={item._id}>
+                {Object.keys(columns).map((column) => (
+                    <td key={column}>
+                        {column === "name" ? (
+                            <Link to={`/users/${item._id}`}>
+                                {item.name}
+                            </Link>
+                        ) : (
+                            renderContent(item, column)
+                        )}
+                    </td>
+                ))}
+            </tr>
+        ))}
         </tbody>
     );
 };

@@ -21,7 +21,7 @@ const Bookmark = ({ onToogleBookmark, userId, isBookmarked }) => {
 Bookmark.propTypes = {
     onToogleBookmark: PropTypes.func.isRequired,
     userId: PropTypes.string.isRequired,
-    isBookmarked: PropTypes.bool.isRequired
+    isBookmarked: PropTypes.bool
 };
 
 export default Bookmark;
