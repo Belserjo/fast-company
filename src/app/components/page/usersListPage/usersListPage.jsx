@@ -10,6 +10,7 @@ import { useUser } from "../../../hooks/useUsers";
 import PropTypes from "prop-types";
 import { useAuth } from "../../../hooks/useAuth";
 import { useProfessions } from "../../../hooks/useProfession";
+import { filterUsers } from "../../../utils/filterUsers";
 
 const UsersListPage = () => {
     const { users } = useUser();
@@ -60,28 +61,12 @@ const UsersListPage = () => {
         setCurrentPage(1);
     }, [selectedProf, searchQuery]);
     if (users) {
-        function filterUsers(data) {
-            const filteredUsers = searchQuery
-                ? data.filter((user) => {
-                      return (
-                          user.name
-                              .toLowerCase()
-                              .indexOf(searchQuery.toLowerCase()) !== -1
-                      );
-                  })
-                : selectedProf
-                ? data.filter((user) => {
-                      return (
-                          JSON.stringify(user.profession) ===
-                          JSON.stringify(selectedProf)
-                      );
-                  })
-                : data;
-            return filteredUsers.filter((u) => {
-                return u._id !== currentUser._id;
-            });
-        }
-        const filteredUsers = filterUsers(users);
+        const filteredUsers = filterUsers(
+            users,
+            searchQuery,
+            selectedProf,
+            currentUser
+        );
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
             filteredUsers,
