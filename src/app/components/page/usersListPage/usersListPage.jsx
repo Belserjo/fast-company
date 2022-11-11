@@ -9,13 +9,18 @@ import Loader from "../../common/loader";
 import { useUser } from "../../../hooks/useUsers";
 import PropTypes from "prop-types";
 import { useAuth } from "../../../hooks/useAuth";
-import { useProfessions } from "../../../hooks/useProfession";
 import { filterUsers } from "../../../utils/filterUsers";
+import {
+    getProfession,
+    getProfessionLoadingState
+} from "../../../store/professions";
+import { useSelector } from "react-redux";
 
 const UsersListPage = () => {
     const { users } = useUser();
     const { currentUser } = useAuth();
-    const { isLoading: professionsLoading, professions } = useProfessions();
+    const professions = useSelector(getProfession());
+    const professionsLoading = useSelector(getProfessionLoadingState());
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedProf, setSelectedProf] = useState();

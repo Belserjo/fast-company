@@ -123,6 +123,7 @@ const AuthProvider = ({ children }) => {
     async function updateUserData(data) {
         try {
             const { content } = await userService.update(data);
+            setUser(content);
         } catch (error) {
             errorCatcher(error);
         }
