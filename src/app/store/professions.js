@@ -27,7 +27,7 @@ const professionsSlice = createSlice({
 });
 
 const { reducer: professionsReducer, actions } = professionsSlice;
-const { professionsRequested, professionsReceived, professionsRequestFiled } =
+const { professionsRequested, professionsReceived, professionsRequestFailed } =
     actions;
 
 export const loadProfessionsList = () => async (dispatch, getState) => {
@@ -38,7 +38,7 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
             const { content } = await professionService.get();
             dispatch(professionsReceived(content));
         } catch (error) {
-            dispatch(professionsRequestFiled(error.message));
+            dispatch(professionsRequestFailed(error.message));
         }
     }
 };

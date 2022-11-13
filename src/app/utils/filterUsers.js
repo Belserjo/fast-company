@@ -1,4 +1,4 @@
-export function filterUsers(data, searchQuery, selectedProf, currentUser) {
+export function filterUsers(data, searchQuery, selectedProf, currentUserId) {
     const filteredUsers = searchQuery
         ? data.filter((user) => {
               return (
@@ -12,6 +12,6 @@ export function filterUsers(data, searchQuery, selectedProf, currentUser) {
           })
         : data;
     return filteredUsers.filter((u) => {
-        return u._id !== currentUser._id;
+        return u._id !== currentUserId;
     });
 }

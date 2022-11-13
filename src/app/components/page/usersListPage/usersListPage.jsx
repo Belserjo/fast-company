@@ -6,19 +6,18 @@ import SearchStatus from "../../../components/ui/searchStatus";
 import UsersTable from "../../../components/ui/usersTable";
 import _ from "lodash";
 import Loader from "../../common/loader";
-import { useUser } from "../../../hooks/useUsers";
 import PropTypes from "prop-types";
-import { useAuth } from "../../../hooks/useAuth";
 import { filterUsers } from "../../../utils/filterUsers";
 import {
     getProfession,
     getProfessionLoadingState
 } from "../../../store/professions";
 import { useSelector } from "react-redux";
+import { getCurrentUserId, getUsers } from "../../../store/users";
 
 const UsersListPage = () => {
-    const { users } = useUser();
-    const { currentUser } = useAuth();
+    const users = useSelector(getUsers());
+    const currentUserId = useSelector(getCurrentUserId());
     const professions = useSelector(getProfession());
     const professionsLoading = useSelector(getProfessionLoadingState());
     const [currentPage, setCurrentPage] = useState(1);
@@ -70,7 +69,7 @@ const UsersListPage = () => {
             users,
             searchQuery,
             selectedProf,
-            currentUser
+            currentUserId
         );
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
