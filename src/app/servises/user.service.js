@@ -26,7 +26,6 @@ const userService = {
             userEndpoint + payload._id,
             payload
         );
-        console.log(data);
         return data;
     }
 };
