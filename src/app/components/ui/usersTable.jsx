@@ -5,7 +5,7 @@ import Qualities from "../ui/qualities";
 import Table from "../common/table";
 import Profession from "./profession";
 
-const UsersTable = ({ users, onSort, selectedSort, onBookmark, onDelete }) => {
+const UsersTable = ({ users, onSort, selectedSort, onBookmark }) => {
     const columns = {
         name: { path: "name", name: "Имя" },
         qualities: {
@@ -31,16 +31,6 @@ const UsersTable = ({ users, onSort, selectedSort, onBookmark, onDelete }) => {
                     onToogleBookmark={onBookmark}
                 />
             )
-        },
-        deleteButton: {
-            component: (user) => (
-                <button
-                    className="btn btn-danger"
-                    onClick={() => onDelete(user._id)}
-                >
-                    delete
-                </button>
-            )
         }
     };
     return (
@@ -56,7 +46,6 @@ UsersTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired,
     onBookmark: PropTypes.func.isRequired
 };
 export default UsersTable;

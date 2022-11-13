@@ -2,24 +2,24 @@ import React, { useState, useEffect } from "react";
 import Pagination from "../../../components/common/pagination";
 import { paginate } from "../../../utils/paginate";
 import GroupList from "../../../components/common/groupList";
-import api from "../../../api";
 import SearchStatus from "../../../components/ui/searchStatus";
 import UsersTable from "../../../components/ui/usersTable";
 import _ from "lodash";
 import Loader from "../../common/loader";
 import { useUser } from "../../../hooks/useUsers";
+import PropTypes from "prop-types";
+import { useAuth } from "../../../hooks/useAuth";
+import { useProfessions } from "../../../hooks/useProfession";
 
 const UsersListPage = () => {
+    const { users } = useUser();
+    const { currentUser } = useAuth();
+    const { isLoading: professionsLoading, professions } = useProfessions();
     const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfessions] = useState();
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const [searchQuery, setSearchQuery] = useState("");
-
     const pageSize = 8;
-
-    const { users } = useUser();
-
     const handleDelete = (userId) => {
         // setUsers((prevState) =>
         //      prevState.filter((user) => user._id !== userId)
@@ -37,10 +37,6 @@ const UsersListPage = () => {
         // });
         console.log("handleToggleBookMark");
     };
-
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
@@ -63,36 +59,43 @@ const UsersListPage = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf, searchQuery]);
-
     if (users) {
-        const filteredUsers = searchQuery
-            ? users.filter(
-                (user) =>
-                    user.name
-                        .toLowerCase()
-                        .indexOf(searchQuery.toLowerCase()) !== -1
-            )
-            : selectedProf
-                ? users.filter(
-                    (user) =>
-                        JSON.stringify(user.profession) ===
-                        JSON.stringify(selectedProf)
-                )
-                : users;
+        function filterUsers(data) {
+            const filteredUsers = searchQuery
+                ? data.filter((user) => {
+                      return (
+                          user.name
+                              .toLowerCase()
+                              .indexOf(searchQuery.toLowerCase()) !== -1
+                      );
+                  })
+                : selectedProf
+                ? data.filter((user) => {
+                      return (
+                          JSON.stringify(user.profession) ===
+                          JSON.stringify(selectedProf)
+                      );
+                  })
+                : data;
+            return filteredUsers.filter((u) => {
+                return u._id !== currentUser._id;
+            });
+        }
+        const filteredUsers = filterUsers(users);
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
             filteredUsers,
             [sortBy.path],
             [sortBy.order]
         );
-
-        const userCrop = paginate(sortedUsers, currentPage, pageSize);
-        const filterReset = () => {
-            setSelectedProf(null);
+        const usersCrop = paginate(sortedUsers, currentPage, pageSize);
+        const clearFilter = () => {
+            setSelectedProf();
         };
+
         return (
             <div className="d-flex bg-dark text-white">
-                {professions && (
+                {professions && !professionsLoading && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList
                             selectedItem={selectedProf}
@@ -101,7 +104,7 @@ const UsersListPage = () => {
                         />
                         <button
                             className="btn btn-secondary mt-2"
-                            onClick={filterReset}
+                            onClick={clearFilter}
                         >
                             Очистить
                         </button>
@@ -118,7 +121,7 @@ const UsersListPage = () => {
                     />
                     {count > 0 && (
                         <UsersTable
-                            users={userCrop}
+                            users={usersCrop}
                             onBookmark={handleToggleBookMark}
                             onDelete={handleDelete}
                             onSort={handleSort}
@@ -139,5 +142,7 @@ const UsersListPage = () => {
     }
     return <Loader />;
 };
-
+UsersListPage.propTypes = {
+    users: PropTypes.array
+};
 export default UsersListPage;
