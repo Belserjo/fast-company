@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import TextAreaField from "../form/TextAreaField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
+import { createComment } from "../../../store/comments";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
-const AddCommentForm = ({ onSubmit }) => {
+const AddCommentForm = () => {
+    const dispatch = useDispatch();
+    const { userId: pageId } = useParams();
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
@@ -33,7 +38,7 @@ const AddCommentForm = ({ onSubmit }) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        onSubmit(data);
+        dispatch(createComment({ data, pageId }));
         clearForm();
     };
     return (

@@ -36,7 +36,6 @@ export const CommentsProvider = ({ children }) => {
         } catch (error) {
             errorCatcher(error);
         }
-        console.log(comment);
     }
     async function getComments() {
         try {
