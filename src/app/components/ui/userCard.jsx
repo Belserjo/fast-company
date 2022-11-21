@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useAuth } from "../../hooks/useAuth";
 import Profession from "./profession";
+import { getCurrentUserId } from "../../store/users";
+import { useSelector } from "react-redux";
 
 const UserCard = ({ user }) => {
     const history = useHistory();
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
     const handleClick = () => {
         history.push(history.location.pathname + "/edit");
     };
@@ -14,7 +15,7 @@ const UserCard = ({ user }) => {
     return (
         <div className="card mb-3 bg-dark">
             <div className="card-body">
-                {currentUser._id === user._id && (
+                {currentUserId === user._id && (
                     <button
                         className="position-absolute top-0 end-0 btn btn-light btn-sm"
                         onClick={handleClick}
