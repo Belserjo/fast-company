@@ -1,17 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { displayDate } from "../../../utils/displayDate";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUserId, getUserById } from "../../../store/users";
-const Comment = ({
-    content,
-    created_at: created,
-    _id: id,
-    userId,
-    onRemove
-}) => {
+import { deleteComment } from "../../../store/comments";
+const Comment = ({ content, created_at: created, _id: id, userId }) => {
+    const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId());
     const user = useSelector(getUserById(userId));
+
+    const onRemove = () => {
+        dispatch(deleteComment(id));
+    };
 
     return (
         <div className="bg-dark card-body  mb-3">
@@ -37,7 +37,7 @@ const Comment = ({
                                     {currentUserId === userId && (
                                         <button
                                             className="btn btn-sm text-primary d-flex align-items-center"
-                                            onClick={() => onRemove(id)}
+                                            onClick={onRemove}
                                         >
                                             <i className="bi bi-x-lg"></i>
                                         </button>
